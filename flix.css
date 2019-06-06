@@ -28,3 +28,17 @@ body {
 #scify {
   left: 500px;
 }
+.movieList {
+  position: absolute;
+  display: flex;
+
+  left: 5px;
+  width: 90%;
+  background: yellow;
+}
+#movieList {
+  top: 100px;
+}
+#movieList2 {
+  top: 300px;
+}
