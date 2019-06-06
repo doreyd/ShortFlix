@@ -1,0 +1,30 @@
+body {
+  background: #141414;
+}
+#menu {
+  position: fixed;
+  top: 20px;
+  left: 120px;
+  color: white;
+  font-family: verdana;
+  font-weight: 500;
+}
+.choices {
+  position: absolute;
+  top: 0px;
+}
+#home {
+  left: 100px;
+}
+#action {
+  left: 200px;
+}
+#comedy {
+  left: 300px;
+}
+#thriller {
+  left: 400px;
+}
+#scify {
+  left: 500px;
+}
