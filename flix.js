@@ -17,39 +17,114 @@ const setAttr = (elem, style) => {
 };
 const setAttrId = (id, style) => setAttr(getElem(id), style);
 
-const borderOn = e => {
-  e.target.border = "2px solid red";
-};
-const borderOff = e => {
-  e.target.border = "0px solid white";
+let $movieList2 = getElem("movieList2");
+
+const showDisplay = id => {
+  let displayList = document.querySelectorAll(".display");
+  displayList.forEach(elem => {
+    if (elem.id === id) getElem(elem.id).style.display = "block";
+    else getElem(elem.id).style.display = "none";
+  });
 };
 
-let idC = 0;
-const newElem = (type, style, anchor) => {
-  let elem = createElem(type, anchor);
-  elem.src = "mv1.jpg";
-  elem.onmouseover = borderOn;
-  elem.onmouseout = borderOff;
-  setStyle(elem, style);
-  append([elem], [anchor]);
+const select = (elem, show) => {
+  elem.style.height = show ? "150px" : "146px";
+  elem.style.top = show ? "5px" : "-10px";
+  elem.style.border = show ? "4px solid white" : "";
+  getElem(elem.id + "-p").style.display = show ? "block" : "none";
+  let lineId = elem.id.split("-")[0];
+
+  if (show) showDisplay(lineId + "-d");
+};
+
+const expand = e => (e.target.style.height = "230px");
+const retract = e => (e.target.style.height = "150px");
+
+const newElem = (type, className, id, ...anchor) => {
+  let elem = createElem(type);
+  if (id !== "") elem.id = id;
+  elem.className = className;
+  append([elem], anchor);
   return elem;
 };
 
-let styleOne = {
-  position: "relative",
-  top: "0px",
-  height: "100px",
-  width: "200px",
-  //   wrap no wrap
-  margin: "5px"
+const hover = (elem, over, out) => {
+  elem.onmouseover = over;
+  elem.onmouseout = out;
 };
 
-let $movieList = getElem("movieList");
-let $movieList2 = getElem("movieList2");
-
-const movieInsert = (num, anchor) => {
-  for (let i = 0; i < num; i++) newElem("img", styleOne, anchor);
+const resetElems = (l, side, incr) => {
+  let elem = getElem(l + "-" + side);
+  let oldLeft = parseInt(getComputedStyle(elem).left);
+  elem.style.left = oldLeft + incr + "px";
 };
 
-movieInsert(6, $movieList);
-movieInsert(6, $movieList2);
+const move = e => {
+  let detail = e.target.id.split("-");
+
+  if (detail[1] === "right") {
+    let elem = getElem(detail[0] + "-line");
+    let oldLeft = parseInt(getComputedStyle(elem).left);
+
+    elem.style.left = oldLeft - 100 + "px";
+    resetElems(detail[0], "right", 100);
+    resetElems(detail[0], "left", 100);
+    resetElems(detail[0], "txt", 100);
+  } else if (detail[1] === "left") {
+    let elem = getElem(detail[0] + "-line");
+    let oldLeft = parseInt(getComputedStyle(elem).left);
+    if (oldLeft <= 0) {
+      elem.style.left = oldLeft + 100 + "px";
+      resetElems(detail[0], "right", -100);
+      resetElems(detail[0], "left", -100);
+      resetElems(detail[0], "txt", -100);
+    }
+  }
+};
+
+let $content = getElem("content");
+
+const addMovie = (l, i, img, $container) => {
+  let $mvBox = newElem("div", "mvBox", "", $container);
+  let $img = newElem("img", "imgC", `${l}-mv${i}`, $mvBox);
+  $img.src = `${img}.jpg`;
+  hover($img, expand, retract);
+  newElem("div", "pointer", `${l}-mv${i}-p`, $mvBox);
+};
+
+const displayer = l => {
+  newElem("div", "display", `${l}-d`, $content);
+  newElem("div", "bottomSpace", ``, $content);
+};
+
+const addLine = (l, text, movies) => {
+  let $line = newElem("div", "line", l + "-line", $content);
+  // let $line2 = newElem("div", "line", l + "-line", $line);
+  newElem("div", "topSpace", "", $line);
+  let $txt = newElem("div", "txt", "", $line);
+  $txt.id = `${l}-txt`;
+  $txt.innerText = text;
+  newElem("div", "topSpace", "", $line);
+  let $movieList = newElem("div", "movieList", "", $line);
+  let $container = newElem("div", "container", "", $movieList);
+  let $left = newElem("div", "left", l + "-left", $line);
+  $left.onclick = move;
+  let $right = newElem("div", "right", l + "-right", $line);
+  $right.onclick = move;
+  movies.forEach((movie, i) => addMovie(l, i, movie, $container));
+  displayer(l);
+};
+
+let movieSections = [
+  ["Action Movies", ["mv1", "mv1", "mv1", "mv1", "mv1", "mv1", "mv1"]],
+  ["Comedy Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]],
+  ["Thriller Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]],
+  ["Scify Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]]
+];
+
+movieSections.forEach((section, i) => addLine(i, section[0], section[1]));
+
+const elems = document.querySelectorAll(".imgC");
+const selectMovie = e => elems.forEach(el => select(el, el.id === e.target.id));
+
+elems.forEach(elem => (elem.onclick = selectMovie));
