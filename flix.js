@@ -85,9 +85,14 @@ const move = e => {
 let $content = getElem("content");
 
 const addMovie = (l, i, img, $container) => {
+  let url = "https://www.youtube.com/watch?v=i7nZBJVI26A";
+
+  videoAnalyzer(url);
   let $mvBox = newElem("div", "mvBox", "", $container);
   let $img = newElem("img", "imgC", `${l}-mv${i}`, $mvBox);
-  $img.src = `${img}.jpg`;
+
+  // $img.src = `${img}.jpg`;
+  $img.src = videoAnalyzer(url)[0];
   hover($img, expand, retract);
   newElem("div", "pointer", `${l}-mv${i}-p`, $mvBox);
 };

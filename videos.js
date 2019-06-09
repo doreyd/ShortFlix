@@ -60,7 +60,8 @@ function loadVideo(URL, anchor, show) {
   newImg.style.width = initialWidth + "px";
   newImg.style.height = initialHeight * 0.74 + "px";
   newImg.style.top = "13%";
-  newImg.style.position = "absolute";
+  //   newImg.style.position = "absolute";
+  newImg.style.position = "relative";
 
   newFrame.width = initialWidth;
   newFrame.height = initialHeight;
@@ -72,15 +73,17 @@ function loadVideo(URL, anchor, show) {
   newDiv.appendChild(newImg);
   newDiv.appendChild(newFrame);
   anchor.appendChild(newDiv);
+  return newDiv;
 }
 
-let anch = document.getElementById("anch");
-loadVideo("https://www.youtube.com/watch?v=GpLGLyag9P4", anch, false);
+// let anch = document.getElementById("anch");
+// let url = "https://www.youtube.com/watch?v=i7nZBJVI26A";
+// loadVideo(url, anch, false);
 
-let status = false;
-let toogle = document.getElementById("toogle");
+// let status = false;
+// let toogle = document.getElementById("toogle");
 
-toggle.onclick = () => {
-  status = !status;
-  loadVideo("https://www.youtube.com/watch?v=GpLGLyag9P4", anch, status);
-};
+// toggle.onclick = () => {
+//   status = !status;
+//   loadVideo(url, anch, status);
+// };
