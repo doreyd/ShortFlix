@@ -61,7 +61,7 @@ body {
   color: white;
   font-family: verdana;
   font-weight: bold;
-  z-index: 2;
+  z-index: 1;
 }
 .img:hover {
   border: 5px solid white;
@@ -164,7 +164,9 @@ body {
 .display {
   position: relative;
   float: right;
+  text-align: center;
   width: 100%;
+  background: black;
   display: none;
 }
 .display2 {
@@ -197,6 +199,7 @@ body {
   font-size: 1.5rem;
   top: 10px;
   left: 20px;
+  /* z-index: 25; */
   font-weight: 100;
 }
 .title {
@@ -215,6 +218,7 @@ body {
   color: #42c864;
   font-weight: 100;
 }
+
 .description {
   position: absolute;
   font-size: 1rem;
@@ -225,27 +229,38 @@ body {
 
 .play {
   position: absolute;
-  font-size: 1rem;
-  top: 260px;
+  font-size: 1.5rem;
+  bottom: 50px;
   left: 20px;
-  padding: 10px 10px 10px 40px;
-  background: #e50914;
-  font-weight: bold;
+  padding: 5px 10px 5px 40px;
+  font-weight: 600;
   font-weight: 100;
+  z-index: 25;
+  background: #e50914;
+  transition: all linear 0.5s;
 }
 .play:hover {
-  background: white;
-  color: #e50914;
-  border: 2px solid #e50914;
+  padding: 5px 40px 5px 10px;
+  border-radius: 0px 80px 80px 0px;
 }
-
-.playTriangle {
-  border-color: transparent white;
-  border-style: solid;
-  border-width: 20px 0px 20px 30px;
-  height: 0px;
-  width: 0px;
+.iframe {
+  position: relative;
+  width: 800px;
+  height: 500px;
+  display: none;
+  border: 0px solid white;
+}
+.close {
   position: absolute;
-  top: 35%;
+  top: 30px;
+  right: 30px;
+  display: block;
+  font-family: verdana;
+  color: white;
   z-index: 8;
+  font-size: 2rem;
+  transition: all linear 0.5s;
+}
+.close:hover {
+  transform: rotate(180deg);
 }

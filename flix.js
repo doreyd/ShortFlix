@@ -27,12 +27,18 @@ const showDisplay = id => {
   });
 };
 
-const select = (elem, show) => {
+const hello = e => console.log(e.target.id);
+const hello2 = () => console.log("Of");
+
+const whiteUp = (elem, show) => {
   elem.style.height = show ? "150px" : "146px";
   elem.style.top = show ? "5px" : "-10px";
   elem.style.border = show ? "4px solid white" : "";
   getElem(elem.id + "-p").style.display = show ? "block" : "none";
+};
 
+const select = (elem, show) => {
+  whiteUp(elem, show);
   let lineId = elem.id.split("-")[0];
 
   if (show) {
@@ -45,9 +51,27 @@ const select = (elem, show) => {
     getElem(
       `${lineId}-ddescription`
     ).innerText = `Space X is a video about the company of the same name. 
-    Many great things can be mentionned about Elon Musk's achievements.`;
+    Many great things can be mentionned about 
+    Elon Musk's achievements.`;
+    let play = getElem(`${lineId}-dplay`);
+    play.innerText = "PLAY";
+    let iframe = getElem(`${lineId}-diframe`);
+    play.onclick = () => {
+      getElem(`${lineId}-dImg`).style.display = "none";
+      getElem(`${lineId}-dText`).style.display = "none";
 
-    getElem(`${lineId}-dplay`).innerText = "PLAY";
+      iframe.style.display = "inline-block";
+      iframe.src = videoAnalyzer(url)[1];
+    };
+    let close = getElem(`${lineId}-dclose`);
+    close.onclick = () => {
+      getElem(`${lineId}-dImg`).style.display = "block";
+      getElem(`${lineId}-dText`).style.display = "block";
+      getElem(`${lineId}-d`).style.display = "none";
+      iframe.style.display = "none";
+
+      whiteUp(elem, false);
+    };
   }
 };
 
@@ -120,10 +144,11 @@ const displayer = l => {
   newElem("div", "title", `${l}-dTitle`, leftSide);
   newElem("div", "date", `${l}-ddate`, leftSide);
   newElem("div", "description", `${l}-ddescription`, leftSide);
-  let play = newElem("div", "play", `${l}-dplay`, leftSide);
-  newElem("div", "playTriangle", `${l}-dplayTriangle`, play);
-
+  newElem("div", "play", `${l}-dplay`, leftSide);
+  newElem("iframe", "iframe", `${l}-diframe`, dis);
   newElem("div", "bottomSpace", ``, $content);
+  let close = newElem("div", "close", `${l}-dclose`, dis);
+  close.innerText = "X";
 };
 
 const addLine = (l, text, movies) => {
