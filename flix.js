@@ -32,9 +32,23 @@ const select = (elem, show) => {
   elem.style.top = show ? "5px" : "-10px";
   elem.style.border = show ? "4px solid white" : "";
   getElem(elem.id + "-p").style.display = show ? "block" : "none";
+
   let lineId = elem.id.split("-")[0];
 
-  if (show) showDisplay(lineId + "-d");
+  if (show) {
+    showDisplay(lineId + "-d");
+    let url = "https://www.youtube.com/watch?v=i7nZBJVI26A";
+    getElem(lineId + "-dImg").src = videoAnalyzer(url)[0];
+    getElem(`${lineId}-dupperTitle`).innerHTML = "<b>SHORTFLIX</b> ORIGINAL";
+    getElem(`${lineId}-dTitle`).innerText = "Space X";
+    getElem(`${lineId}-ddate`).innerText = "September 15th, 2017";
+    getElem(
+      `${lineId}-ddescription`
+    ).innerText = `Space X is a video about the company of the same name. 
+    Many great things can be mentionned about Elon Musk's achievements.`;
+
+    getElem(`${lineId}-dplay`).innerText = "PLAY";
+  }
 };
 
 const expand = e => (e.target.style.height = "230px");
@@ -98,7 +112,17 @@ const addMovie = (l, i, img, $container) => {
 };
 
 const displayer = l => {
-  newElem("div", "display", `${l}-d`, $content);
+  // newElem("div", "display", `${l}-d`, $content);
+  let dis = newElem("div", "display", `${l}-d`, $content);
+  newElem("img", "display2", `${l}-dImg`, dis);
+  let leftSide = newElem("div", "display3", `${l}-dText`, dis);
+  newElem("div", "upperTitle", `${l}-dupperTitle`, leftSide);
+  newElem("div", "title", `${l}-dTitle`, leftSide);
+  newElem("div", "date", `${l}-ddate`, leftSide);
+  newElem("div", "description", `${l}-ddescription`, leftSide);
+  let play = newElem("div", "play", `${l}-dplay`, leftSide);
+  newElem("div", "playTriangle", `${l}-dplayTriangle`, play);
+
   newElem("div", "bottomSpace", ``, $content);
 };
 
@@ -112,9 +136,9 @@ const addLine = (l, text, movies) => {
   newElem("div", "topSpace", "", $line);
   let $movieList = newElem("div", "movieList", "", $line);
   let $container = newElem("div", "container", "", $movieList);
-  let $left = newElem("div", "left", l + "-left", $line);
+  let $left = newElem("div", "left", l + "-left", $container);
   $left.onclick = move;
-  let $right = newElem("div", "right", l + "-right", $line);
+  let $right = newElem("div", "right", l + "-right", $container);
   $right.onclick = move;
   movies.forEach((movie, i) => addMovie(l, i, movie, $container));
   displayer(l);
