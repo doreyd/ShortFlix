@@ -128,3 +128,15 @@ const elems = document.querySelectorAll(".imgC");
 const selectMovie = e => elems.forEach(el => select(el, el.id === e.target.id));
 
 elems.forEach(elem => (elem.onclick = selectMovie));
+
+window.onresize = () => {
+  let windowWidth = parseInt(window.innerWidth);
+
+  movieSections.forEach((x, i) => {
+    let line = getElem(i + "-line");
+    let oldLeft = parseInt(getComputedStyle(line).left);
+
+    let elem = getElem(i + "-" + "right");
+    elem.style.left = windowWidth - oldLeft - 60 + "px";
+  });
+};

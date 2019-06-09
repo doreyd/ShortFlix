@@ -177,3 +177,7 @@ body {
   content: linear-gradient(to right, black 40%, #a1070e 80%);
   /* content: linear-gradient(to right, black 40%, transparent 80%); */
 }
+
+.iframe {
+  z-index: 1;
+}
