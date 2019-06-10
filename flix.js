@@ -39,20 +39,19 @@ const whiteUp = (elem, show) => {
 
 const select = (elem, show) => {
   whiteUp(elem, show);
+  console.log(elem.id);
   let lineId = elem.id.split("-")[0];
-
+  let index = elem.id.split("mv")[1];
   if (show) {
     showDisplay(lineId + "-d");
-    let url = "https://www.youtube.com/watch?v=i7nZBJVI26A";
+    // let url = "https://www.youtube.com/watch?v=i7nZBJVI26A";
+    let url = data[index]["url"];
     getElem(lineId + "-dImg").src = videoAnalyzer(url)[0];
-    getElem(`${lineId}-dupperTitle`).innerHTML = "<b>SHORTFLIX</b> ORIGINAL";
-    getElem(`${lineId}-dTitle`).innerText = "Space X";
-    getElem(`${lineId}-ddate`).innerText = "September 15th, 2017";
-    getElem(
-      `${lineId}-ddescription`
-    ).innerText = `Space X is a video about the company of the same name. 
-    Many great things can be mentionned about 
-    Elon Musk's achievements.`;
+    getElem(`${lineId}-dupperTitle`).innerHTML = data[index]["upperTitle"];
+    getElem(`${lineId}-dTitle`).innerText = data[index]["title"];
+    getElem(`${lineId}-ddate`).innerText = data[index]["date"];
+    getElem(`${lineId}-ddescription`).innerText = data[index]["description"];
+
     let play = getElem(`${lineId}-dplay`);
     play.innerText = "PLAY";
     let iframe = getElem(`${lineId}-diframe`);
@@ -60,16 +59,20 @@ const select = (elem, show) => {
       getElem(`${lineId}-dImg`).style.display = "none";
       getElem(`${lineId}-dText`).style.display = "none";
 
+      getElem(`${lineId}-d`).style.textAlign = "center";
+
       iframe.style.display = "inline-block";
       iframe.src = videoAnalyzer(url)[1];
     };
     let close = getElem(`${lineId}-dclose`);
     close.onclick = () => {
+      getElem(`${lineId}-d`).style.textAlign = "";
       getElem(`${lineId}-dImg`).style.display = "block";
       getElem(`${lineId}-dText`).style.display = "block";
       getElem(`${lineId}-d`).style.display = "none";
       iframe.style.display = "none";
-
+      var iframeSrc = iframe.src;
+      iframe.src = iframeSrc;
       whiteUp(elem, false);
     };
   }
@@ -123,7 +126,8 @@ const move = e => {
 let $content = getElem("content");
 
 const addMovie = (l, i, img, $container) => {
-  let url = "https://www.youtube.com/watch?v=i7nZBJVI26A";
+  // let url = "https://www.youtube.com/watch?v=i7nZBJVI26A";
+  let url = data[i]["url"];
 
   videoAnalyzer(url);
   let $mvBox = newElem("div", "mvBox", "", $container);
@@ -169,11 +173,18 @@ const addLine = (l, text, movies) => {
   displayer(l);
 };
 
+// let movieSections = [
+//   ["Action Movies", ["mv1", "mv1", "mv1", "mv1", "mv1", "mv1", "mv1"]],
+//   ["Comedy Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]],
+//   ["Thriller Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]],
+//   ["Scify Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]]
+// ];
+
 let movieSections = [
-  ["Action Movies", ["mv1", "mv1", "mv1", "mv1", "mv1", "mv1", "mv1"]],
-  ["Comedy Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]],
-  ["Thriller Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]],
-  ["Scify Movies", ["mv1", "mv1", "mv1", "mv1", "mv1"]]
+  ["Action Movies", [...data]],
+  ["Comedy Movies", [...data]],
+  ["Thriller Movies", [...data]],
+  ["Scify Movies", [...data]]
 ];
 
 movieSections.forEach((section, i) => addLine(i, section[0], section[1]));
